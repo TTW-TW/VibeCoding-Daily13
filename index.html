@@ -120,7 +120,7 @@
         border: 2px solid #f3b883;
         font-weight: 500;
         }
-        
+
         .result-box.show {
             display: block;
         }
@@ -159,8 +159,10 @@
     <script>
         // 初始化 Flatpickr
         flatpickr("#birthDate", {
-        dateFormat: "Y/m/d",
+            dateFormat: "Y/m/d",
+            defaultDate: localStorage.getItem("dogBirthday") || null
         });
+
 
         // 小型犬換算表
         const ageMap = [
@@ -191,10 +193,11 @@
 
         // 1️⃣ 載入 localStorage 帶入前次輸入
         window.addEventListener("DOMContentLoaded", () => {
-        const savedDate = localStorage.getItem("dogBirthday");
-        if (savedDate) {
-            birthInput.value = savedDate;
-        }
+            const savedDate = localStorage.getItem("dogBirthday");
+            
+            //if (savedDate) {
+            //    birthInput.value = savedDate;
+            //}
         });
 
         // 2️⃣ 按下開始計算
