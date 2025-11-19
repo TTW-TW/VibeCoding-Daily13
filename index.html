@@ -11,35 +11,25 @@
     <style>
         body {
             margin: 0;
-            font-family: "Noto Sans TC", sans-serif;
-            }
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            background: #ffffff;   /* 白色背景 */
+            overflow-x: hidden; /* 避免水平方向捲軸 */
+        }
 
-        /* 替換原本的 .wrapper 樣式 */
         .wrapper {
-        /* 保留整體置中行為 */
-        display: flex;
-        justify-content: center;
-        align-items: center;
+            width: 100%;
+            max-width: 900px;     /* ❗桌機最大寬度 */
+            background: #f8a832;
+            padding: 40px 20px;   /* ❗手機時安全邊距 */
+            margin: 40px auto;    /* 自動置中、上下留距離 */
+            border-radius: 12px;
+            box-sizing: border-box;
+            box-shadow: 0 4px 18px rgba(0,0,0,0.08);
 
-        /* 讓橘色區塊在上下保有空間並左右保留固定白邊 */
-        width: 460px;
-        margin-left: auto;      
-        margin-right: auto;  
-        margin-top: 40px;
-        margin-bottom: 40px;
-
-        /* 若視窗太高，可讓內容垂直置中 */
-        /*min-height: 100vh;*/
-
-        /* 橘色背景（原本是 body 的橘色移到這裡）*/
-        background: #f8a832;
-
-        /* 內部間距，讓內層 card 保有白色間距 */
-        padding: 24px;
-
-        /* 若需要圓角與陰影（選用） */
-        border-radius: 8px;
-        box-shadow: 0 4px 18px rgba(0,0,0,0.08);
+            display: flex;
+            justify-content: center;
         }
 
 
@@ -119,6 +109,10 @@
         }
 
         .result-box {
+            display: none;   /* 新增這行 */
+        }
+
+        .result-box.show  {
         margin-top: 25px;
         padding: 25px;
         background: linear-gradient(#ffe9d6, #ffd8b8);
@@ -130,10 +124,7 @@
         font-weight: 500;
         }
 
-        .result-box {
-        display: none;   /* 新增這行 */
-        }
-
+        
 
     </style>
 </head>
@@ -247,7 +238,7 @@
             換算成人類年齡大約是 <strong>${humanAgeRounded}</strong> 歲
         `;
         
-        resultBox.style.display = "block";   /* 新增這行 */
+        resultBox.classList.add("show");
         });
 
 
