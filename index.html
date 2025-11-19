@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>妙麗歲數計算機</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="icon" type="image/png" href="./icon.png">
+    <link rel="apple-touch-icon" href="./icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="./icon.png">
+    <style>
+        body {
+            margin: 0;
+            font-family: "Noto Sans TC", sans-serif;
+            }
+
+        /* 替換原本的 .wrapper 樣式 */
+        .wrapper {
+        /* 保留整體置中行為 */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        /* 讓橘色區塊在上下保有空間並左右保留固定白邊 */
+        margin: 40px 300px;         /* 上下 40px、左右 80px 的白邊（可改） */
+
+        /* 若視窗太高，可讓內容垂直置中 */
+        /*min-height: 100vh;*/
+
+        /* 橘色背景（原本是 body 的橘色移到這裡）*/
+        background: #f8a832;
+
+        /* 內部間距，讓內層 card 保有白色間距 */
+        padding: 24px;
+
+        /* 若需要圓角與陰影（選用） */
+        border-radius: 8px;
+        box-shadow: 0 4px 18px rgba(0,0,0,0.08);
+        }
+
+
+        .card {
+        width: 420px;
+        background: #fff;
+        padding: 35px;
+        border-radius: 20px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.12);
+        text-align: center;
+        }
+
+        .title {
+        color: #a44b18;
+        font-size: 28px;
+        margin-bottom: 20px;
+        }
+
+        /* 小狗圖片扁橢圓形 */
+        .dog-img-box {
+        width: 180px;
+        height: 130px;
+        margin: 0 auto 20px;
+        overflow: hidden;
+        border-radius: 50% / 35%;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.18);
+        }
+
+        .dog-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center top; /* 避免小狗被切到 */
+        }
+
+        .label {
+        display: block;
+        text-align: left;
+        margin-bottom: 5px;
+        font-size: 16px;
+        }
+
+        input {
+        width: 100%;
+        padding: 12px;
+        border-radius: 10px;
+        border: 1px solid #bbb;
+        margin-bottom: 20px;
+        font-size: 16px;
+        }
+
+        .calc-btn {
+        width: 100%;
+        padding: 13px;
+        font-size: 18px;
+        background: linear-gradient(#ffe56a, #ffc300);
+        color: #7a4500;
+        border: none;
+        border-radius: 12px;
+        cursor: pointer;
+        font-weight: bold;
+        box-shadow: 0 3px 5px rgba(0,0,0,0.18);
+        }
+
+        .calc-btn:hover {
+        background: linear-gradient(#fff07d, #ffcd22);
+        }
+
+        .hint {
+        margin-top: 20px;
+        padding: 12px;
+        font-size: 14px;
+        color: #666;
+        background: #f2f2f2;
+        border-radius: 12px;
+        line-height: 1.5;
+        }
+
+        .result-box {
+        margin-top: 25px;
+        padding: 25px;
+        background: linear-gradient(#ffe9d6, #ffd8b8);
+        border-radius: 20px;
+        line-height: 1.8;
+        font-size: 18px;
+        color: #8a3f00;
+        border: 2px solid #f3b883;
+        font-weight: 500;
+        }
+
+        .result-box {
+        display: none;   /* 新增這行 */
+        }
+
+
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+
+        <div class="card">
+        <h1 class="title">妙麗歲數計算機</h1>
+
+        <!-- 小狗圖片 -->
+        <div class="dog-img-box">
+            <img src="https://plus.unsplash.com/premium_vector-1730866160496-abb4e8e12919?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.1.0"
+                alt="dog" class="dog-img">
+        </div>
+
+        <label class="label">妙麗的出生日期</label>
+        <input type="text" id="birthDate" placeholder="請選擇日期">
+
+        <button id="calcBtn" class="calc-btn">開始計算</button>
+
+        <p class="hint">
+            💡輸入日期後按下按鈕，再重新整理網頁後，<br>生日欄位會自動帶回上次的值。
+        </p>
+
+        <div id="result" class="result-box"></div>
+        </div>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script>
+        // 初始化 Flatpickr
+        flatpickr("#birthDate", {
+        dateFormat: "Y/m/d",
+        });
+
+        // 小型犬換算表
+        const ageMap = [
+        { dog: 0.25, human: 3 },   // 3 個月
+        { dog: 0.5,  human: 7 },   // 6 個月
+        { dog: 1,    human: 15 },
+        { dog: 2,    human: 24 },
+        { dog: 3,    human: 28 },
+        { dog: 4,    human: 32 },
+        { dog: 5,    human: 36 },
+        { dog: 6,    human: 40 },
+        { dog: 7,    human: 44 },
+        { dog: 8,    human: 48 },
+        { dog: 9,    human: 52 },
+        { dog: 10,   human: 56 },
+        { dog: 11,   human: 60 },
+        { dog: 12,   human: 64 },
+        { dog: 13,   human: 68 },
+        { dog: 14,   human: 72 },
+        { dog: 15,   human: 76 },
+        { dog: 16,   human: 80 },
+        { dog: 18,   human: 88 },
+        ];
+
+        // DOM
+        const birthInput = document.getElementById("birthDate");
+        const resultBox = document.getElementById("result");
+
+        // 1️⃣ 載入 localStorage 帶入前次輸入
+        window.addEventListener("DOMContentLoaded", () => {
+        const savedDate = localStorage.getItem("dogBirthday");
+        if (savedDate) {
+            birthInput.value = savedDate;
+        }
+        });
+
+        // 2️⃣ 按下開始計算
+        document.getElementById("calcBtn").addEventListener("click", function () {
+        const birthDate = birthInput.value;
+
+        if (!birthDate) {
+            resultBox.innerHTML = "請先選擇出生日期！";
+            return;
+        }
+
+        // 儲存到 localStorage
+        localStorage.setItem("dogBirthday", birthDate);
+
+        // 計算狗狗年齡
+        const now = new Date();
+        const birth = new Date(birthDate);
+
+        const ageInMs = now - birth;
+        const ageInYears = ageInMs / (1000 * 60 * 60 * 24 * 365.25);
+        const dogAge = Math.round(ageInYears * 10) / 10;
+
+        let humanAge = null;
+
+        // 小於 1 歲計算
+        if (dogAge < 1) {
+            if (dogAge <= 0.25) humanAge = 3;
+            else if (dogAge <= 0.5) humanAge = 7;
+            else humanAge = 15;
+        } else {
+            // 找最接近對照的歲數
+            let nearest = ageMap.reduce((prev, curr) =>
+            Math.abs(curr.dog - dogAge) < Math.abs(prev.dog - dogAge) ? curr : prev
+            );
+            humanAge = nearest.human;
+        }
+
+        const humanAgeRounded = Math.round(humanAge * 10) / 10;
+
+        resultBox.innerHTML = `
+            妙麗現在大約 <strong>${dogAge}</strong> 歲狗年齡，<br>
+            換算成人類年齡大約是 <strong>${humanAgeRounded}</strong> 歲
+        `;
+        
+        resultBox.style.display = "block";   /* 新增這行 */
+        });
+
+
+
+    </script>
+    
+</body>
+</html>
