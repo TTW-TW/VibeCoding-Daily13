@@ -108,10 +108,7 @@
         line-height: 1.5;
         }
 
-        .result-box {
-            display: none;   /* 新增這行 */
-        }
-
+        
         .result-box.show  {
         margin-top: 25px;
         padding: 25px;
@@ -122,6 +119,10 @@
         color: #8a3f00;
         border: 2px solid #f3b883;
         font-weight: 500;
+        }
+        
+        .result-box.show {
+            display: block;
         }
 
         
@@ -198,47 +199,47 @@
 
         // 2️⃣ 按下開始計算
         document.getElementById("calcBtn").addEventListener("click", function () {
-        const birthDate = birthInput.value;
+            const birthDate = birthInput.value;
 
-        if (!birthDate) {
-            resultBox.innerHTML = "請先選擇出生日期！";
-            return;
-        }
+            if (!birthDate) {
+                resultBox.innerHTML = "請先選擇出生日期！";
+                return;
+            }
 
-        // 儲存到 localStorage
-        localStorage.setItem("dogBirthday", birthDate);
+            // 儲存到 localStorage
+            localStorage.setItem("dogBirthday", birthDate);
 
-        // 計算狗狗年齡
-        const now = new Date();
-        const birth = new Date(birthDate);
+            // 計算狗狗年齡
+            const now = new Date();
+            const birth = new Date(birthDate);
 
-        const ageInMs = now - birth;
-        const ageInYears = ageInMs / (1000 * 60 * 60 * 24 * 365.25);
-        const dogAge = Math.round(ageInYears * 10) / 10;
+            const ageInMs = now - birth;
+            const ageInYears = ageInMs / (1000 * 60 * 60 * 24 * 365.25);
+            const dogAge = Math.round(ageInYears * 10) / 10;
 
-        let humanAge = null;
+            let humanAge = null;
 
-        // 小於 1 歲計算
-        if (dogAge < 1) {
-            if (dogAge <= 0.25) humanAge = 3;
-            else if (dogAge <= 0.5) humanAge = 7;
-            else humanAge = 15;
-        } else {
-            // 找最接近對照的歲數
-            let nearest = ageMap.reduce((prev, curr) =>
-            Math.abs(curr.dog - dogAge) < Math.abs(prev.dog - dogAge) ? curr : prev
-            );
-            humanAge = nearest.human;
-        }
+            // 小於 1 歲計算
+            if (dogAge < 1) {
+                if (dogAge <= 0.25) humanAge = 3;
+                else if (dogAge <= 0.5) humanAge = 7;
+                else humanAge = 15;
+            } else {
+                // 找最接近對照的歲數
+                let nearest = ageMap.reduce((prev, curr) =>
+                Math.abs(curr.dog - dogAge) < Math.abs(prev.dog - dogAge) ? curr : prev
+                );
+                humanAge = nearest.human;
+            }
 
-        const humanAgeRounded = Math.round(humanAge * 10) / 10;
+            const humanAgeRounded = Math.round(humanAge * 10) / 10;
 
-        resultBox.innerHTML = `
-            妙麗現在大約 <strong>${dogAge}</strong> 歲狗年齡，<br>
-            換算成人類年齡大約是 <strong>${humanAgeRounded}</strong> 歲
-        `;
-        
-        resultBox.classList.add("show");
+            resultBox.innerHTML = `
+                妙麗現在大約 <strong>${dogAge}</strong> 歲狗年齡，<br>
+                換算成人類年齡大約是 <strong>${humanAgeRounded}</strong> 歲
+            `;
+            
+            resultBox.classList.add("show");
         });
 
 
